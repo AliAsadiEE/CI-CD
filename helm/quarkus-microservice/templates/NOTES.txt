@@ -1,3 +1,0 @@
-Quarkus Application
-
-Chart will allow us to create different labels for the same application
