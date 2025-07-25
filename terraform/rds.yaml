@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: terraform-rds
+    namespace: microservices
+spec:
+    template:
+        metadata:
+            namespace: microservices
+        spec:
+            containers:
+                -   name: terraform-rds
+                    image: dhinojosa/terraform-rds
+                    env:
+                        -   name: AWS_ACCESS_KEY_ID
+                            valueFrom:
+                                secretKeyRef:
+                                    name: aws-terraform-cred
+                                    key: AWS_ACCESS_KEY_ID
+                        -   name: AWS_SECRET_ACCESS_KEY
+                            valueFrom:
+                                secretKeyRef:
+                                    name: aws-terraform-cred
+                                    key: AWS_SECRET_ACCESS_KEY
+                        -   name: TF_VAR_team-name
+                            value: mild-temper
+            restartPolicy: Never
+    backoffLimit: 4
