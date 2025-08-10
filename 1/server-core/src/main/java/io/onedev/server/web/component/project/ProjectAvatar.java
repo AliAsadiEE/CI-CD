@@ -1,0 +1,38 @@
+package io.onedev.server.web.component.project;
+
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.WebComponent;
+
+import io.onedev.server.OneDev;
+import io.onedev.server.web.avatar.AvatarManager;
+
+public class ProjectAvatar extends WebComponent {
+
+	private String url;
+	
+	public ProjectAvatar(String id, Long projectId) {
+		super(id);
+
+		url = getAvatarManager().getProjectAvatarUrl(projectId);
+	}
+	
+	private AvatarManager getAvatarManager() {
+		return OneDev.getInstance(AvatarManager.class);
+	}
+	
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		setOutputMarkupId(true);
+	}
+
+	@Override
+	protected void onComponentTag(ComponentTag tag) {
+		super.onComponentTag(tag);
+		
+		tag.setName("img");
+		tag.append("class", "avatar", " ");
+		tag.put("src", url);
+	}
+
+}
